@@ -19,8 +19,9 @@ jobs:
     - uses: dorny/paths-filter@v2
       id: filter
       with:
-        filters: .github/filters.yml
+        filters: .github/projects.yml
   hook:
+    if: ${{ needs.select.outputs.projects != [] }}
     needs: select
     strategy:
       matrix:
