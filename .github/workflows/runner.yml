@@ -21,7 +21,7 @@ jobs:
       with:
         filters: .github/projects.yml
   hook:
-    if: ${{ needs.select.outputs.projects != [] }}
+    if: ${{ needs.select.outputs.projects != '[]' }}
     needs: select
     strategy:
       matrix:
