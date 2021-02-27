@@ -1,4 +1,7 @@
 --- 
+all:
+- .github/filters.yml
+- .github/workflows
 common-lib:
 - common-lib/**
 project-1:
