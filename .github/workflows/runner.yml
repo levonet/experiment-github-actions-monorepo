@@ -1,0 +1,30 @@
+---
+name: runner
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.filter.outputs.select }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: .github/filters.yaml
+  hook:
+    needs: select
+    strategy:
+      matrix:
+        project: ${{ fromJSON(needs.select.outputs.projects) }}
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "${{ matrix.project }}"

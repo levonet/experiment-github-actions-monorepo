@@ -1,0 +1,11 @@
+--- 
+common-lib:
+- common-lib/**
+project-1:
+- common-lib/**
+- project-1/**
+project-2:
+- project-2/**
+project-3:
+- project-1/**
+- project-3/**
