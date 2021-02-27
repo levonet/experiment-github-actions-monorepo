@@ -13,7 +13,7 @@ jobs:
   select:
     runs-on: ubuntu-latest
     outputs:
-      projects: ${{ steps.filter.outputs.select }}
+      projects: ${{ steps.filter.outputs.changes }}
     steps:
     - uses: actions/checkout@v2
     - uses: dorny/paths-filter@v2
