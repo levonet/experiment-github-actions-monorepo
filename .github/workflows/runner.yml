@@ -26,8 +26,10 @@ on:
 jobs:
   select:
     runs-on: ubuntu-latest
+    env:
+      ALL_PROJECTS: '["all"]'
     outputs:
-      projects: ${{ steps.filter.outputs.changes }}
+      projects: ${{ startsWith(github.ref, 'refs/tags/') && env.ALL_PROJECTS || steps.filter.outputs.changes }}
     steps:
     - uses: actions/checkout@v2
     - uses: dorny/paths-filter@v2
@@ -44,6 +46,15 @@ jobs:
         echo "github.event.pull_request: ${{ toJSON(github.event.pull_request) }}"
         echo "github.event.repository: ${{ toJSON(github.event.repository) }}"
         git log -n 5
+    # - id: set
+    #   env:
+    #     PROJECTS: ${{ steps.filter.outputs.changes }}
+    #   run: |
+    #     if [[ $GITHUB_REF =~ '^refs/tags/' ]]; then
+    #         echo '::set-output name=projects::["all"]'
+    #         exit
+    #     fi
+    #     echo "::set-output name=projects::$PROJECTS"
   run:
     if: ${{ needs.select.outputs.projects != '[]' }}
     needs: select

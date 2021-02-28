@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: .github/projects.yml
     - run: |
         env | sort
         echo "github.workflow: ${{ github.workflow }}"
@@ -22,3 +26,4 @@ jobs:
         echo "github.event.pull_request: ${{ toJSON(github.event.pull_request) }}"
         echo "github.event.repository: ${{ toJSON(github.event.repository) }}"
         git log -n 5
+        echo "steps.filter.outputs: ${{ toJSON(steps.filter.outputs) }}"
