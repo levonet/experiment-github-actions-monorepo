@@ -15,6 +15,16 @@ on:
   release:
     types:
     - published
+  workflow_dispatch:
+    inputs:
+      deploy_group:
+        description: Group name in inventory file
+        required: false
+        default: dev1
+      deploy_state:
+        description: "One of the states: staging, current, restore, absent, balancer, sync, backup, recovery, test"
+        required: false
+        default: staging
 
 jobs:
   select:
@@ -29,10 +39,13 @@ jobs:
         filters: .github/projects.yml
     - run: |
         env | sort
+        echo "github.workflow: ${{ github.workflow }}"
+        echo "github.job: ${{ github.job }}"
         echo "github.base_ref: ${{ github.base_ref }}"
         echo "github.base_sha: ${{ github.base_sha }}"
         echo "github.event.action: ${{ github.event.action }}"
         echo "github.event.pull_request: ${{ toJSON(github.event.pull_request) }}"
+        echo "github.event.repository: ${{ toJSON(github.event.repository) }}"
         git log -n 5
   run:
     if: ${{ needs.select.outputs.projects != '[]' }}
@@ -45,8 +58,8 @@ jobs:
     - run: |
         env | sort
         echo "matrix.project: ${{ matrix.project }}"
+        echo "github.workflow: ${{ github.workflow }}"
+        echo "github.job: ${{ github.job }}"
         echo "github.base_ref: ${{ github.base_ref }}"
-        echo "github.base_sha: ${{ github.base_sha }}"
         echo "github.event.action: ${{ github.event.action }}"
         echo "github.event.pull_request.merged: ${{ github.event.pull_request.merged }}"
-        git log -n 5
