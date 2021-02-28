@@ -1,0 +1,26 @@
+---
+name: cleaner
+
+on:
+  pull_request:
+    types:
+    - closed
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: refs/heads/${{ github.base_ref }}
+    - run: |
+        env | sort
+        echo "github.workflow: ${{ github.workflow }}"
+        echo "github.job: ${{ github.job }}"
+        echo "github.base_ref: ${{ github.base_ref }}"
+        echo "github.base_sha: ${{ github.base_sha }}"
+        echo "github.event.action: ${{ github.event.action }}"
+        echo "github.event.pull_request.merged: ${{ github.event.pull_request.merged }}"
+        echo "github.event.pull_request: ${{ toJSON(github.event.pull_request) }}"
+        echo "github.event.repository: ${{ toJSON(github.event.repository) }}"
+        git log -n 5
