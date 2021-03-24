@@ -23,6 +23,17 @@ on:
         description: "One of the states: staging, current, restore, absent, balancer, sync, backup, recovery, test"
         default: staging
 
+env:
+  COVERAGE_THRESHOLD: -0.05
+  COVERAGE_SUCCESS: 0.05
+  COVERAGE_n125l: -1.25555555555555
+  COVERAGE_p125l: 1.25555555555555
+  COVERAGE_n12: -1.2
+  COVERAGE_p12: 1.2
+  COVERAGE_z: 0
+  COVERAGE_n00101: -0.0101
+  COVERAGE_p00101: 0.0101
+
 jobs:
   select:
     runs-on: ubuntu-latest
@@ -37,6 +48,28 @@ jobs:
       with:
         filters: .github/projects.yml
     - run: |
+        echo " COVERAGE_n125l > SUCCESS: ${{ env.COVERAGE_n125l > env.COVERAGE_SUCCESS }}"
+        echo " COVERAGE_p125l > SUCCESS: ${{ env.COVERAGE_p125l > env.COVERAGE_SUCCESS }}"
+        echo "   COVERAGE_n12 > SUCCESS: ${{ env.COVERAGE_n12 > env.COVERAGE_SUCCESS }}"
+        echo "   COVERAGE_p12 > SUCCESS: ${{ env.COVERAGE_p12 > env.COVERAGE_SUCCESS }}"
+        echo "     COVERAGE_z > SUCCESS: ${{ env.COVERAGE_z > env.COVERAGE_SUCCESS }}"
+        echo "COVERAGE_n00101 > SUCCESS: ${{ env.COVERAGE_n00101 > env.COVERAGE_SUCCESS }}"
+        echo "COVERAGE_p00101 > SUCCESS: ${{ env.COVERAGE_p00101 > env.COVERAGE_SUCCESS }}"
+        echo " COVERAGE_n125l > THRESHOLD && <= SUCCESS: ${{ env.COVERAGE_n125l > env.COVERAGE_THRESHOLD && env.COVERAGE_n125l <= env.COVERAGE_SUCCESS }}"
+        echo " COVERAGE_p125l > THRESHOLD && <= SUCCESS: ${{ env.COVERAGE_p125l > env.COVERAGE_THRESHOLD && env.COVERAGE_p125l <= env.COVERAGE_SUCCESS }}"
+        echo "   COVERAGE_n12 > THRESHOLD && <= SUCCESS: ${{ env.COVERAGE_n12 > env.COVERAGE_THRESHOLD && env.COVERAGE_n12 <= env.COVERAGE_SUCCESS }}"
+        echo "   COVERAGE_p12 > THRESHOLD && <= SUCCESS: ${{ env.COVERAGE_p12 > env.COVERAGE_THRESHOLD && env.COVERAGE_p12 <= env.COVERAGE_SUCCESS }}"
+        echo "     COVERAGE_z > THRESHOLD && <= SUCCESS: ${{ env.COVERAGE_z > env.COVERAGE_THRESHOLD && env.COVERAGE_z <= env.COVERAGE_SUCCESS }}"
+        echo "COVERAGE_n00101 > THRESHOLD && <= SUCCESS: ${{ env.COVERAGE_n00101 > env.COVERAGE_THRESHOLD && env.COVERAGE_n00101 <= env.COVERAGE_SUCCESS }}"
+        echo "COVERAGE_p00101 > THRESHOLD && <= SUCCESS: ${{ env.COVERAGE_p00101 > env.COVERAGE_THRESHOLD && env.COVERAGE_p00101 <= env.COVERAGE_SUCCESS }}"
+        echo " COVERAGE_n125l <= THRESHOLD: ${{ env.COVERAGE_n125l  <= env.COVERAGE_THRESHOLD }}"
+        echo " COVERAGE_p125l <= THRESHOLD: ${{ env.COVERAGE_p125l  <= env.COVERAGE_THRESHOLD }}"
+        echo "   COVERAGE_n12 <= THRESHOLD: ${{ env.COVERAGE_n12  <= env.COVERAGE_THRESHOLD }}"
+        echo "   COVERAGE_p12 <= THRESHOLD: ${{ env.COVERAGE_p12  <= env.COVERAGE_THRESHOLD }}"
+        echo "     COVERAGE_z <= THRESHOLD: ${{ env.COVERAGE_z  <= env.COVERAGE_THRESHOLD }}"
+        echo "COVERAGE_n00101 <= THRESHOLD: ${{ env.COVERAGE_n00101  <= env.COVERAGE_THRESHOLD }}"
+        echo "COVERAGE_p00101 <= THRESHOLD: ${{ env.COVERAGE_p00101  <= env.COVERAGE_THRESHOLD }}"
+        echo
         env | sort
         echo "github.workflow: ${{ github.workflow }}"
         echo "github.job: ${{ github.job }}"
