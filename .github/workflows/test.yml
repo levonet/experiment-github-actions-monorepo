@@ -20,7 +20,7 @@ jobs:
         echo "::set-output name=n_123::-123"
         echo "::set-output name=n_456::-456"
         echo "::set-output name=p_123::123"
-        echo "::set-output name=p_456::-456"
+        echo "::set-output name=p_456::456"
         echo "::set-output name=zero::0"
     - name: Test env in condition
       run: |
@@ -44,10 +44,10 @@ jobs:
         echo "-123 > 0,    expected: false, actual: ${{ env.N_123 > env.ZERO  }}"
         echo "   0 < -123, expected: false, actual: ${{ env.ZERO  < env.N_123 }}"
         echo "-123 < 0,    expected: true,  actual: ${{ env.N_123 < env.ZERO  }}"
-        echo "-123 > -456, expected: true,  actual: ${{ env.N_123 > env.N_456 }}"
-        echo "-456 > -123, expected: false, actual: ${{ env.N_456 > env.N_123 }}"
-        echo "-123 < -456, expected: false, actual: ${{ env.N_123 < env.N_456 }}"
-        echo "-456 < -123, expected: true,  actual: ${{ env.N_456 < env.N_123 }}"
+        echo "-123 > -456, expected: true,  actual: ${{ env.N_123 > env.N_456 }} ERROR!"
+        echo "-456 > -123, expected: false, actual: ${{ env.N_456 > env.N_123 }} ERROR!"
+        echo "-123 < -456, expected: false, actual: ${{ env.N_123 < env.N_456 }} ERROR!"
+        echo "-456 < -123, expected: true,  actual: ${{ env.N_456 < env.N_123 }} ERROR!"
     - name: Test outputs in condition
       run: |
         echo " 123 > 456,  expected: false, actual: ${{ steps.out.outputs.p_123 > steps.out.outputs.p_456 }}"
@@ -70,7 +70,7 @@ jobs:
         echo "-123 > 0,    expected: false, actual: ${{ steps.out.outputs.n_123 > steps.out.outputs.zero  }}"
         echo "   0 < -123, expected: false, actual: ${{ steps.out.outputs.zero  < steps.out.outputs.n_123 }}"
         echo "-123 < 0,    expected: true,  actual: ${{ steps.out.outputs.n_123 < steps.out.outputs.zero  }}"
-        echo "-123 > -456, expected: true,  actual: ${{ steps.out.outputs.n_123 > steps.out.outputs.n_456 }}"
-        echo "-456 > -123, expected: false, actual: ${{ steps.out.outputs.n_456 > steps.out.outputs.n_123 }}"
-        echo "-123 < -456, expected: false, actual: ${{ steps.out.outputs.n_123 < steps.out.outputs.n_456 }}"
-        echo "-456 < -123, expected: true,  actual: ${{ steps.out.outputs.n_456 < steps.out.outputs.n_123 }}"
+        echo "-123 > -456, expected: true,  actual: ${{ steps.out.outputs.n_123 > steps.out.outputs.n_456 }} ERROR!"
+        echo "-456 > -123, expected: false, actual: ${{ steps.out.outputs.n_456 > steps.out.outputs.n_123 }} ERROR!"
+        echo "-123 < -456, expected: false, actual: ${{ steps.out.outputs.n_123 < steps.out.outputs.n_456 }} ERROR!"
+        echo "-456 < -123, expected: true,  actual: ${{ steps.out.outputs.n_456 < steps.out.outputs.n_123 }} ERROR!"
