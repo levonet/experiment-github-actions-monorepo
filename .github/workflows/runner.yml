@@ -98,12 +98,12 @@ jobs:
         echo "github.event.pull_request.merged: ${{ github.event.pull_request.merged }}"
 
     - name: Dump artifact
-      if: github.head_ref == github.base_ref
+      if: ${{ github.head_ref == github.base_ref }}
       run: |
         mkdir -p .artifacts/${{ matrix.project }}
         echo $GITHUB_SHA > .artifacts/${{ matrix.project }}/sha
     - name: Upload artifact
-      if: github.head_ref == github.base_ref
+      if: ${{ github.head_ref == github.base_ref }}
       uses: actions/upload-artifact@v2
       with:
         name: .artifacts/${{ matrix.project }}
@@ -111,7 +111,8 @@ jobs:
         retention-days: 7
 
     - name: Download artifact
-      if: github.head_ref != github.base_ref
+      if: ${{ github.head_ref != github.base_ref }}
+      id: base-artifact
       uses: dawidd6/action-download-artifact@v2.13.0
       continue-on-error: true
       with:
@@ -120,11 +121,14 @@ jobs:
         path: .artifacts/${{ matrix.project }}
         branch: ${{ github.base_ref }}
     - name: Test artifact
-      if: ${{ failure() }}
+      if: ${{ github.head_ref != github.base_ref }}
+      env:
+        STEPS_CONTEXT: ${{ toJSON(steps.base-artifact) }}
       run: |
         echo FAILURE
+        echo "$STEPS_CONTEXT"
         mkdir -p .artifacts/${{ matrix.project }}
-        echo $GITHUB_SHA > .artifacts/${{ matrix.project }}/sha
+        echo FAILURE > .artifacts/${{ matrix.project }}/sha
     - name: Test artifact
       if: ${{ github.head_ref != github.base_ref }}
       run: |
