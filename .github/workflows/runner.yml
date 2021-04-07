@@ -113,13 +113,11 @@ jobs:
     - name: Download artifact
       if: ${{ github.head_ref != github.base_ref }}
       id: base-artifact
-      uses: dawidd6/action-download-artifact@v2.13.0
+      uses: andrewiggins/download-base-artifact@v1
       continue-on-error: true
       with:
-        workflow: runner.yml
-        name: coverage-report-${{ matrix.project }}
+        artifact: coverage-report-${{ matrix.project }}
         path: .artifacts/${{ matrix.project }}
-        branch: ${{ github.base_ref }}
     - name: Stub artifact
       if: ${{ github.head_ref != github.base_ref && steps.base-artifact.outcome == 'failure' }}
       run: |
