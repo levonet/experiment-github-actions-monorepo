@@ -113,13 +113,20 @@ jobs:
     - name: Download artifact
       if: github.head_ref != github.base_ref
       uses: dawidd6/action-download-artifact@v2.13.0
+      continue-on-error: true
       with:
         workflow: runner.yml
         name: .artifacts/${{ matrix.project }}
         path: .artifacts/${{ matrix.project }}
         branch: ${{ github.base_ref }}
     - name: Test artifact
-      if: github.head_ref != github.base_ref
+      if: ${{ failure() }}
+      run: |
+        echo FAILURE
+        mkdir -p .artifacts/${{ matrix.project }}
+        echo $GITHUB_SHA > .artifacts/${{ matrix.project }}/sha
+    - name: Test artifact
+      if: ${{ github.head_ref != github.base_ref }}
       run: |
         ls -lR .artifacts
         cat .artifacts/${{ matrix.project }}/sha
