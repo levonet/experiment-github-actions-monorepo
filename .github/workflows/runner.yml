@@ -120,13 +120,9 @@ jobs:
         name: .artifacts/${{ matrix.project }}
         path: .artifacts/${{ matrix.project }}
         branch: ${{ github.base_ref }}
-    - name: Test artifact
-      if: ${{ github.head_ref != github.base_ref }}
-      env:
-        STEPS_CONTEXT: ${{ toJSON(steps.base-artifact) }}
+    - name: Stub artifact
+      if: ${{ github.head_ref != github.base_ref && steps.base-artifact.outcome == 'failure' }}
       run: |
-        echo FAILURE
-        echo "$STEPS_CONTEXT"
         mkdir -p .artifacts/${{ matrix.project }}
         echo FAILURE > .artifacts/${{ matrix.project }}/sha
     - name: Test artifact
