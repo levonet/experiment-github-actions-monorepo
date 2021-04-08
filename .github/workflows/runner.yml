@@ -113,7 +113,7 @@ jobs:
     - name: Download artifact
       if: ${{ github.head_ref != github.base_ref }}
       id: base-artifact
-      uses: aochmann/actions-download-artifact@1.0.4
+      uses: levonet/action-download-last-artifact@B2B-253
       continue-on-error: true
       with:
         name: coverage-report-${{ matrix.project }}
