@@ -118,7 +118,6 @@ jobs:
       with:
         name: coverage-report-${{ matrix.project }}
         path: .artifacts/${{ matrix.project }}
-        latest: true
     - name: Stub artifact
       if: ${{ github.head_ref != github.base_ref && steps.base-artifact.outcome == 'failure' }}
       run: |
