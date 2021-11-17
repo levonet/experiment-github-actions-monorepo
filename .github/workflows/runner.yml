@@ -83,6 +83,20 @@ jobs:
     #         exit
     #     fi
     #     echo "::set-output name=projects::$PROJECTS"
+    - name: Prepare tags
+      if: ${{ github.ref_type == 'tag' }}
+      id: tags
+      uses: actions/github-script@v4
+      with:
+        script: |
+          console.log(context)
+          console.log(JSON.stringify(context))
+          /* const tags = context.ref_name.split('-')
+          setOutput('jaeger', tags[0])
+          setOutput('jaeger-clickhouse', tags[1])
+          console.log('jaeger', tags[0])
+          console.log('jaeger-clickhouse', tags[1]) */
+
   run:
     if: ${{ needs.select.outputs.projects != '[]' }}
     needs: select
